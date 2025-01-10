@@ -20,6 +20,27 @@ npx tailwindcss init -p
 
 npm i axios
 
+# Flowbite
+npm install flowbite-react
+
+const flowbite = require("flowbite-react/tailwind");
+
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+content: [
+// ...
+flowbite.content(),
+],
+plugins: [
+// ...
+flowbite.plugin(),
+],
+};
+
+# Query RTK
+npm install @reduxjs/toolkit react-redux @types/react-redux
+
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
