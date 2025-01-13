@@ -2,11 +2,11 @@
 // import axios from "axios";
 import {APP_ENV} from "../../../env";
 // import {ICategoryItem} from "../types.ts";
-import {useGetCategoriesQuery} from "../../../services/apiCategory.ts";
+import {useCreateCategoryMutation, useGetCategoriesQuery} from "../../../services/apiCategory.ts";
 
 const CategoryListPage = () => {
 
-
+    const [createCategory] = useCreateCategoryMutation();
     const { data: list, error, isLoading } = useGetCategoriesQuery();
 
     if (isLoading) return <div>Loading...</div>;
@@ -30,10 +30,28 @@ const CategoryListPage = () => {
     console.log("APP_ENV",APP_ENV.REMOTE_BASE_URL)
     console.log("Render component");
 
+    const onCreateCategoryClick = async () => {
+        try {
+            const response = await createCategory({
+                name: "Красивий кіт",
+                slug: "red",
+                description: "Добрий кіт - ситий кіт."
+            }).unwrap();
+
+            console.log("Категорія успішно створена:", response);
+        } catch (error) {
+            console.error("Помилка під час створення категорії:", error);
+        }
+    }
+
     return (
         <>
             <h1 className={"text-center text-4xl font-bold text-blue-500"}>Список категорій</h1>
 
+            <button type="button" onClick={onCreateCategoryClick}
+                    className="text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                Додати
+            </button>
 
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -58,7 +76,8 @@ const CategoryListPage = () => {
                     </thead>
                     <tbody>
                     {list?.map((category) => (
-                        <tr key={category.id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                        <tr key={category.id}
+                            className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
                             <th scope="row"
                                 className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {category.name}
