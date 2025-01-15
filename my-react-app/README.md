@@ -4,6 +4,10 @@ npm i
 
 npm run dev
 
+npm i react-router-dom
+
+npm i antd
+
 # Add Tailwindcss
 
 npm install -D tailwindcss postcss autoprefixer
